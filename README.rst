@@ -15,6 +15,7 @@ Django
 Display realtime informations using Google Chart API and Jquery Ajax call
 
 
-Screenshot
-==========
+Vidéo
+=====
 
+http://www.dailymotion.com/video/xrcs0p_zigbee-mesh-captors-django-service_tech
