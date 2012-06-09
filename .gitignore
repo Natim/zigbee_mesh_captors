@@ -1,5 +1,5 @@
 django/apps/
-mongodb_fask/apps/
+mongodb_flask/apps/
 *.pyc
 *~
 #*#
