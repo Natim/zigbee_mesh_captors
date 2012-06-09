@@ -19,7 +19,7 @@
             var data = google.visualization.arrayToDataTable(data);
 	        graph.draw(data, {curveType: "function",
                         width: 800, height: 600,
-                        vAxis: {maxValue: 255}});
+                        vAxis: {minValue: 0, maxValue: 255}});
             setTimeout(update, 500);
 
         });
