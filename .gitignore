@@ -1,1 +1,4 @@
-captors/apps/
+django/apps/
+mongodb_fask/apps/
+*.pyc
+*~

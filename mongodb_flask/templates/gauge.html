@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <title>
+	  Gauge Visualisation
+    </title>
+    <script type="text/javascript" src="http://www.google.com/jsapi"></script>
+    <script language="javascript" type="text/javascript" src="/static/js/jquery.js"></script>
+    <script type="text/javascript">
+      google.load('visualization', '1', {packages: ['gauge']});
+
+	  var graph;
+
+	  function update() {
+        $.ajax({
+          url: "/gauge_api/{{ arduino }}/",
+        }).done(function(json) { 
+	        var data = $.merge([['Label', 'Value']], json);
+            var data = google.visualization.arrayToDataTable(data);
+	        graph.draw(data, {min: 0, max: 255, yellowFrom: 0, yellowTo: 152, 
+	                          redFrom: 153, redTo: 255,});
+            setTimeout(update, 50);
+
+        });
+	  }
+
+      function drawVisualization() {
+        // Create and draw the visualization.
+        graph = new google.visualization.Gauge(document.getElementById('visualization'));
+	    update();
+      }      
+
+      google.setOnLoadCallback(drawVisualization);
+    </script>
+  </head>
+  <body style="font-family: Arial;border: 0 none;">
+    <div id="visualization" style="width: 800px; height: 600px;"></div>
+
+	<a href="/">Back</a> - 	<a href="/line/{{ arduino }}/">Line</a>
+  </body>
+</html>
