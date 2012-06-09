@@ -14,6 +14,10 @@ Django
 
 Display realtime informations using Google Chart API and Jquery Ajax call
 
+MongoDB + Flask
+===============
+
+Display realtime informations using Google Chart API and Jquery Ajax call on a MongoDB database
 
 Vidéo
 =====
