@@ -26,7 +26,7 @@ try:
 
         if (time() - starttime) > 3*60:
             print "\n\nCLEAR OLD DATA\n\n"        
-            db.mesh_captors.remove({'date': {'$lt': datetime.datetime.utcnow() - datetime.timedelta(seconds=360)}})
+            db.mesh_captors.remove({'date': {'$lt': datetime.datetime.utcnow() - datetime.timedelta(seconds=3*60)}})
             starttime = time()
     
 except KeyboardInterrupt:

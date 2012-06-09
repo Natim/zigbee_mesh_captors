@@ -17,7 +17,7 @@
         }).done(function(json) { 
 	        var data = json;
             var data = google.visualization.arrayToDataTable(data);
-	        graph.draw(data, {curveType: "function",
+	        graph.draw(data, {curveType: "none",
                         width: 800, height: 600,
                         vAxis: {minValue: 0, maxValue: 255}});
             setTimeout(update, 500);
