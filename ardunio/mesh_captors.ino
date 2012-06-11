@@ -24,12 +24,17 @@ void sendFrame(int pin, int value) {
 }
 
 void loop() {
+  // When press the button, we switch the power-led status
   if(digitalRead(button) == HIGH) {
     started = !started;
     digitalWrite(led, started);
     while(digitalRead(button) != LOW) delay(50); 
   }
   
+  // For each Analog Pin, we read and convert the value on a byte.
+  // If the value changed and the last value was sent at least 500ms
+  // before, we send the new value
+
   for(int i = 0; i < NB_PINS; i++) {
      int value = analogRead(pins[i]);
      value = constrain(map(value, 0, 1023, 0, 255), 0, 255);
