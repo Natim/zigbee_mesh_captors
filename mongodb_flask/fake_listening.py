@@ -7,7 +7,7 @@ import datetime
 db = Connection().mesh
 
 arduinos = [0xCB]
-pins = [14, 15, 16, 17, 18]
+pins = [14, 15, 16, 17]
 
 starttime = time()
 
