@@ -22,7 +22,7 @@ def index():
 @app.route('/', methods=['POST'])
 def routing():
     return redirect('%s/%s/' % (request.form['view'],
-                                request.form['arduino']))
+                                request.form['arduino']))    
 
 @app.route('/gauge/<arduino_id>/')
 def gauge(arduino_id):
@@ -62,35 +62,36 @@ def line_api(arduino_id):
                                          sort=[('pin', ASCENDING), 
                                                ('date', DESCENDING)])
 
-    captors = {}
-    values = defaultdict(int);
-    pins = []
+    # Result : 
 
-    last_pin_value = defaultdict(int)
+    # [
+    #   {label: "Pin 14", data: [[time, point], ...] },
+    #   {label: "Pin 15", data: [[time, point], ...] }
+    # ]
+
+    values = []
+
+    now = datetime.datetime.utcnow() - datetime.timedelta(seconds=60)
+    last_date = False
 
     for captor in captors_value:
         pin_name = 'Pin %d' % int(captor['pin'])
-        if pin_name not in pins:
-            pins.append(pin_name)
-        values[pin_name] = int(captor['value'])
-        captors[captor['date'].strftime('%H%M%S.%f')[1:8]] = dict(values)
+        date = float(captor['date'].strftime('%H%M%S.%f')[:10])
+        if not last_date:
+            last_date = date
+            last_date -= 100
+        dot = [date, int(captor['value'])]
+        inside = False
+        for pin in values:
+            if pin['label'] == pin_name:
+                inside = True
+                if date > last_date:
+                    pin['data'].append(dot)
+                break
+        if not inside:
+            values.append({'label': pin_name, 'data': [dot]})
 
-    captors_values = []
-    sorted_captors = sorted(captors.iteritems(), key=lambda x: x[0])
-
-    captors_values.append(['x']+pins)
-    for time, values_dict in sorted_captors:
-        result = [time]
-        for pin in pins:
-            try:
-                result.append(values_dict[pin])
-                last_pin_value[pin] = values_dict[pin]
-            except KeyError:
-                result.append(last_pin_value[pin])
-        captors_values.append(result)
-    
-    captors = [captors_values[0]] + captors_values[1:][-50:]
-    response = make_response(json.dumps(captors))
+    response = make_response(json.dumps(values))
     response.headers['Content-Type'] = 'application/json; charset=utf-8'
     return response
 

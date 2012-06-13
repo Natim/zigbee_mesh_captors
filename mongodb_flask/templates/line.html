@@ -5,37 +5,28 @@
     <title>
       Line Chart
     </title>
-    <script type="text/javascript" src="http://www.google.com/jsapi"></script>
     <script language="javascript" type="text/javascript" src="/static/js/jquery.js"></script>
-    <script type="text/javascript">
-      google.load('visualization', '1', {packages: ['corechart']});
-	  var graph;
-
-	  function update() {
-        $.ajax({
-          url: "/line_api/{{ arduino }}/",
-        }).done(function(json) { 
-	        var data = json;
-            var data = google.visualization.arrayToDataTable(data);
-	        graph.draw(data, {curveType: "none",
-                        width: 800, height: 600,
-                        vAxis: {minValue: 0, maxValue: 255}});
-            setTimeout(update, 500);
-
-        });
-	  }
-
-	  function drawVisualization() {
-        // Create and draw the visualization.
-        graph = new google.visualization.LineChart(document.getElementById('visualization'));
-	    update();
-	  }
-
-	  google.setOnLoadCallback(drawVisualization);
-    </script>
+    <script language="javascript" type="text/javascript" src="/static/js/jquery.flot.js"></script>
   </head>
   <body style="font-family: Arial;border: 0 none;">
-    <div id="visualization" style="width: 800px; height: 600px;"></div>
-	<a href="/">Back</a> - 	<a href="/gauge/{{ arduino }}/">Gauge</a>
+	<h1>Line</h1>
+	<div id="placeholder" style="width:800px;height:600px;"></div>
+
+	<p><a href="/">Back</a> - 	<a href="/gauge/{{ arduino }}/">Gauge</a></p>
+
+    <script type="text/javascript">
+    $(function () {
+    	 function update() {
+           $.ajax({
+             url: "/line_api/{{ arduino }}/",
+           }).done(function(json) { 
+               $.plot($("#placeholder"), json);
+               setTimeout(update, 50);
+           });
+    	 }
+         update();
+    });
+    </script>
+
   </body>
 </html>

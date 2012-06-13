@@ -13,7 +13,7 @@ starttime = time()
 
 try:
     while True:
-        millis = random.randint(500, 2000)
+        millis = random.randint(1000, 1500)
         sleep(millis/1000)
 
         infos = {}
