@@ -1,0 +1,16 @@
+{
+  "name": "node-arduino-serial",
+  "version": "0.0.1",
+  "author": "vvision <email>vvision@sfr.fr</email>",
+  "description": "Small example of how to use Node.Js with an arduino sending data over serial. Taken from R4D2 project at vvision/R4D2.",
+  "license": "MIT",              
+  "engine": {
+    "node": "&gt;=0.4"
+  },
+  "main": "./server.js",
+  "dependencies" : {                      
+    "express": "3.0",
+    "serialport": "1.2.5",
+    "mongoose": "3.8.1"
+  }
+}
